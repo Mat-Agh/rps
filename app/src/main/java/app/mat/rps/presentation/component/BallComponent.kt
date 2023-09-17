@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.mat.rps.presentation.screen.home.HomeViewModel
 
@@ -16,24 +15,16 @@ fun BallComponent(
     Canvas(
         modifier = Modifier
             .size(
-                50.dp
+                70.dp
             ),
         onDraw = {
             drawCircle(
-                when (ballType) {
+                color = when (ballType) {
                     HomeViewModel.BallType.ROCK -> Color.Black
                     HomeViewModel.BallType.PAPER -> Color.White
                     HomeViewModel.BallType.SCISSOR -> Color.Blue
                 }
             )
         }
-    )
-}
-
-@Preview
-@Composable
-fun BallComponentPreview() {
-    BallComponent(
-        ballType = HomeViewModel.BallType.PAPER
     )
 }

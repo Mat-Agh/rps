@@ -17,14 +17,16 @@ class HomeActivity : ComponentActivity() {
         )
 
         setContent {
-            val mainViewModel: HomeViewModel = hiltViewModel(
+            val homeViewModel: HomeViewModel = hiltViewModel(
                 viewModelStoreOwner = this
             )
 
             HomeScreen(
-                homeViewModel = mainViewModel,
+                homeViewModel = homeViewModel,
                 modifier = Modifier
             )
+
+            homeViewModel.startBallMovement()
         }
     }
 

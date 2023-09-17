@@ -6,34 +6,42 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import app.mat.rps.presentation.component.BallComponent
-import app.mat.rps.presentation.component.MoveObjectComponent
+import app.mat.rps.presentation.component.PlaygroundScreen
 
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    modifier: Modifier?
+    modifier: Modifier,
 ) {
-    val ballState = homeViewModel.ballState.collectAsState()
+    val ballState by homeViewModel.ballState.collectAsState()
 
     val xOffset = animateIntAsState(
-        targetValue = ballState.value.xPosition,
+        targetValue = ballState.xPosition,
         animationSpec = tween(
-            durationMillis = 4000,
+            easing = LinearEasing
+        ), label = ""
+    )
+    val yOffset = animateIntAsState(
+        targetValue = ballState.yPosition,
+        animationSpec = tween(
             easing = LinearEasing
         ), label = ""
     )
 
-    MoveObjectComponent(
-        modifier = (modifier ?: Modifier)
+    PlaygroundScreen(
+        modifier = modifier
             .fillMaxSize(
-                fraction = 0.8f
+                fraction = 1f
             ),
-        xOffset = xOffset.value
+        homeViewModel = homeViewModel,
+        xOffset = xOffset.value,
+        yOffset = yOffset.value
     ) {
         BallComponent(
-            ballType = HomeViewModel.BallType.ROCK
+            ballType = HomeViewModel.BallType.SCISSOR
         )
     }
 }
