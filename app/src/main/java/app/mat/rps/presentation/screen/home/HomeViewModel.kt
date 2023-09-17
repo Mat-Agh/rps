@@ -14,10 +14,14 @@ import kotlinx.coroutines.withContext
 class HomeViewModel : ViewModel() {
     //region Companion object
     companion object {
-        private const val BALL_SIZE: Int = 70
-        private const val BALL_LIMIT: Int = ((BALL_SIZE * 1) / 2)
-        private const val MOVEMENT_SPEED: Int = 5
-        private const val MOVEMENT_VELOCITY: Long = 50
+        private var screenWidth: Int = 0
+        private var screenHeight: Int = 0
+        private var screenDensity: Float = 1f
+        private val ballSize: Int = (70 * screenDensity).toInt()
+        private val limitEnd = (ballSize * 2)
+        private val limitBottom = (ballSize * 2) + ((ballSize * 2) / 3)
+        private val movementSpeed: Int = (1 * screenDensity).toInt()
+        private const val MOVEMENT_DURATION: Long = 1
     }
     //endregion Companion object
 
@@ -48,17 +52,15 @@ class HomeViewModel : ViewModel() {
     //endregion Data Classes
 
     //region Variables
-    private var screenWidth = 0;
-    private var screenHeight = 0;
-
     private val _ballState: MutableStateFlow<BallState> = MutableStateFlow(
         BallState(
-            xPosition = 100,
+            xPosition = 0,
             yPosition = 100,
             ballType = BallType.ROCK,
-            movementDirection = MovementDirection.BOTTOM_END
+            movementDirection = MovementDirection.entries.shuffled().last()
         )
     )
+
 
     val ballState: StateFlow<BallState> = _ballState.asStateFlow()
 
@@ -74,7 +76,7 @@ class HomeViewModel : ViewModel() {
         ) {
             while (true) {
                 moveBall()
-                delay(MOVEMENT_VELOCITY)
+                delay(MOVEMENT_DURATION)
             }
         }
     }
@@ -88,10 +90,10 @@ class HomeViewModel : ViewModel() {
         val currentX = ballState.value.xPosition
         val currentY = ballState.value.yPosition
         val currentDirection = ballState.value.movementDirection
-        val isAtTopLimit = currentY <= (0 - BALL_LIMIT)
-        val isAtBottomLimit = currentY >= (screenHeight - BALL_LIMIT)
-        val isAtStartLimit = currentX <= (0 - BALL_LIMIT)
-        val isAtEndLimit = currentX >= (screenWidth - BALL_LIMIT)
+        val isAtTopLimit = currentY <= 0
+        val isAtBottomLimit = currentY >= (screenHeight - limitBottom)
+        val isAtStartLimit = currentX <= 0
+        val isAtEndLimit = currentX >= (screenWidth - limitEnd)
 
 
         when {
@@ -174,7 +176,7 @@ class HomeViewModel : ViewModel() {
         ) {
             _ballState.value = BallState(
                 xPosition = ballState.xPosition,
-                yPosition = ballState.yPosition - MOVEMENT_SPEED,
+                yPosition = ballState.yPosition - movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.TOP
             )
@@ -189,7 +191,7 @@ class HomeViewModel : ViewModel() {
         ) {
             _ballState.value = BallState(
                 xPosition = ballState.xPosition,
-                yPosition = ballState.yPosition + MOVEMENT_SPEED,
+                yPosition = ballState.yPosition + movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.BOTTOM
             )
@@ -203,7 +205,7 @@ class HomeViewModel : ViewModel() {
             Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition + MOVEMENT_SPEED,
+                xPosition = ballState.xPosition + movementSpeed,
                 yPosition = ballState.yPosition,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.END
@@ -218,7 +220,7 @@ class HomeViewModel : ViewModel() {
             context = Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition - MOVEMENT_SPEED,
+                xPosition = ballState.xPosition - movementSpeed,
                 yPosition = ballState.yPosition,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.START
@@ -233,8 +235,8 @@ class HomeViewModel : ViewModel() {
             context = Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition + MOVEMENT_SPEED,
-                yPosition = ballState.yPosition - MOVEMENT_SPEED,
+                xPosition = ballState.xPosition + movementSpeed,
+                yPosition = ballState.yPosition - movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.TOP_END
             )
@@ -248,8 +250,8 @@ class HomeViewModel : ViewModel() {
             context = Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition - MOVEMENT_SPEED,
-                yPosition = ballState.yPosition - MOVEMENT_SPEED,
+                xPosition = ballState.xPosition - movementSpeed,
+                yPosition = ballState.yPosition - movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.TOP_START
             )
@@ -263,8 +265,8 @@ class HomeViewModel : ViewModel() {
             context = Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition + MOVEMENT_SPEED,
-                yPosition = ballState.yPosition + MOVEMENT_SPEED,
+                xPosition = ballState.xPosition + movementSpeed,
+                yPosition = ballState.yPosition + movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.BOTTOM_END
             )
@@ -278,8 +280,8 @@ class HomeViewModel : ViewModel() {
             context = Dispatchers.Main
         ) {
             _ballState.value = BallState(
-                xPosition = ballState.xPosition - MOVEMENT_SPEED,
-                yPosition = ballState.yPosition + MOVEMENT_SPEED,
+                xPosition = ballState.xPosition - movementSpeed,
+                yPosition = ballState.yPosition + movementSpeed,
                 ballType = ballState.ballType,
                 movementDirection = MovementDirection.BOTTOM_START
             )
@@ -290,10 +292,12 @@ class HomeViewModel : ViewModel() {
     //region Public Methods
     fun setScreenMeasures(
         width: Int,
-        height: Int
+        height: Int,
+        pixelDensity: Float
     ) {
         screenWidth = width
         screenHeight = height
+        screenDensity = pixelDensity
     }
     //endregion Public Methods
 }
