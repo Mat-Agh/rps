@@ -1,0 +1,55 @@
+[versions]
+
+# Gradle Configuration
+packageName = "app.mat.rps"
+versionCode = "1"
+versionName = "0.1"
+minSdk = "26"
+maxSdk = "34"
+jvmVersion = "17"
+
+# Libraries Versions
+androidGradleVersion = "8.3.0-alpha04"
+kotlinVersion = "1.9.10"
+coreVersion = "1.12.0"
+hiltVersion = "2.46.1"
+lifecycleVersion = "2.6.2"
+activityVersion = "1.7.2"
+composeVersion = "1.6.0-alpha05"
+composeCompilerVersion = "1.5.3"
+materialVersion = "1.2.0-alpha07"
+constraintLayoutVersion = "1.1.0-alpha12"
+hiltNavigationComposeVersion = "1.1.0-alpha01"
+
+[libraries]
+
+core = { group = "androidx.core", name = "core-ktx", version.ref = "coreVersion" }
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
+hiltCompiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
+hiltNavigationCompose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationComposeVersion" }
+lifecycleViewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
+lifecycleLivedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }
+lifecycleCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleVersion" }
+lifecycleViewmodelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleVersion" }
+activityCompose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityVersion" }
+composeUI = { group = "androidx.compose.ui", name = "ui", version.ref = "composeVersion" }
+composeFoundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "composeVersion" }
+composeAnimation = { group = "androidx.compose.animation", name = "animation", version.ref = "composeVersion" }
+composeUITooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "composeVersion" }
+composeUIToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "composeVersion" }
+composeMaterialIconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeVersion" }
+composeLiveData = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "composeVersion" }
+composeUITestManifest = { group = "androidx.compose.ui", name = "ui-test-manifest", version.ref = "composeVersion" }
+composeUITestJUnit = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "composeVersion" }
+composeMaterial3 = { group = "androidx.compose.material3", name = "material3", version.ref = "materialVersion" }
+composeMaterial3WindowSize = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "materialVersion" }
+composeConstraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintLayoutVersion" }
+
+[plugins]
+
+applicationPlugin = { id = "com.android.application", version.ref = "androidGradleVersion" }
+libraryPlugin = { id = "com.android.library", version.ref = "androidGradleVersion" }
+kotlinPlugin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
+hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+kaptPlugin = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinVersion" }
+
