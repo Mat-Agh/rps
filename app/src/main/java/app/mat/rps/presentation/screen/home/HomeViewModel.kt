@@ -17,10 +17,10 @@ class HomeViewModel : ViewModel() {
         private var screenWidth: Int = 0
         private var screenHeight: Int = 0
         private var screenDensity: Float = 1f
-        private val ballSize: Int = (70 * screenDensity).toInt()
+        private val ballSize: Int = (50 * screenDensity).toInt()
         private val endLimit = (ballSize * 2)
         private val bottomLimit = (ballSize * 2) + ((ballSize * 2) / 3)
-        private val movementSpeed: Int = (1 * screenDensity).toInt()
+        private val movementSteps: Int = (2 * screenDensity).toInt()
         const val MOVEMENT_DURATION: Long = 1
 
         fun setScreenMeasures(
@@ -108,71 +108,126 @@ class HomeViewModel : ViewModel() {
 
         when {
             isAtTopLimit && isAtStartLimit -> {
-                moveBallToBottomEnd()
+                moveBallToBottomEnd(
+                    ball = ball
+                )
             }
 
             isAtTopLimit && isAtEndLimit -> {
-                moveBallToBottomStart()
+                moveBallToBottomStart(
+                    ball = ball
+                )
             }
 
             isAtBottomLimit && isAtStartLimit -> {
-                moveBallToTopEnd()
+                moveBallToTopEnd(
+                    ball = ball
+                )
             }
 
             isAtBottomLimit && isAtEndLimit -> {
-                moveBallToTopStart()
+                moveBallToTopStart(
+                    ball = ball
+                )
             }
 
             isAtTopLimit -> {
                 when (currentDirection) {
-                    MovementDirection.TOP_START -> moveBallToBottomStart()
+                    MovementDirection.TOP_START -> moveBallToBottomStart(
+                        ball = ball
+                    )
 
-                    MovementDirection.TOP_END -> moveBallToBottomEnd()
+                    MovementDirection.TOP_END -> moveBallToBottomEnd(
+                        ball = ball
+                    )
 
-                    else -> moveBallToBottom()
+                    else -> moveBallToBottom(
+                        ball = ball
+                    )
                 }
             }
 
             isAtBottomLimit -> {
                 when (currentDirection) {
-                    MovementDirection.BOTTOM_START -> moveBallToTopStart()
+                    MovementDirection.BOTTOM_START -> moveBallToTopStart(
+                        ball = ball
+                    )
 
-                    MovementDirection.BOTTOM_END -> moveBallToTopEnd()
+                    MovementDirection.BOTTOM_END -> moveBallToTopEnd(
+                        ball = ball
+                    )
 
-                    else -> moveBallToTop()
+                    else -> moveBallToTop(
+                        ball = ball
+                    )
                 }
             }
 
             isAtStartLimit -> {
                 when (currentDirection) {
-                    MovementDirection.TOP_START -> moveBallToTopEnd()
+                    MovementDirection.TOP_START -> moveBallToTopEnd(
+                        ball = ball
+                    )
 
-                    MovementDirection.BOTTOM_START -> moveBallToBottomEnd()
+                    MovementDirection.BOTTOM_START -> moveBallToBottomEnd(
+                        ball = ball
+                    )
 
-                    else -> moveBallToEnd()
+                    else -> moveBallToEnd(
+                        ball = ball
+                    )
                 }
             }
 
             isAtEndLimit -> {
                 when (currentDirection) {
-                    MovementDirection.TOP_END -> moveBallToTopStart()
+                    MovementDirection.TOP_END -> moveBallToTopStart(
+                        ball = ball
+                    )
 
-                    MovementDirection.BOTTOM_END -> moveBallToBottomStart()
+                    MovementDirection.BOTTOM_END -> moveBallToBottomStart(
+                        ball = ball
+                    )
 
-                    else -> moveBallToStart()
+                    else -> moveBallToStart(
+                        ball = ball
+                    )
                 }
             }
 
             else -> {
                 when (currentDirection) {
-                    MovementDirection.TOP_START -> moveBallToTopStart()
-                    MovementDirection.BOTTOM_START -> moveBallToBottomStart()
-                    MovementDirection.TOP_END -> moveBallToTopEnd()
-                    MovementDirection.BOTTOM_END -> moveBallToBottomEnd()
-                    MovementDirection.TOP -> moveBallToTop()
-                    MovementDirection.BOTTOM -> moveBallToBottom()
-                    MovementDirection.START -> moveBallToStart()
-                    MovementDirection.END -> moveBallToEnd()
+                    MovementDirection.TOP_START -> moveBallToTopStart(
+                        ball = ball
+                    )
+
+                    MovementDirection.BOTTOM_START -> moveBallToBottomStart(
+                        ball = ball
+                    )
+
+                    MovementDirection.TOP_END -> moveBallToTopEnd(
+                        ball = ball
+                    )
+
+                    MovementDirection.BOTTOM_END -> moveBallToBottomEnd(
+                        ball = ball
+                    )
+
+                    MovementDirection.TOP -> moveBallToTop(
+                        ball = ball
+                    )
+
+                    MovementDirection.BOTTOM -> moveBallToBottom(
+                        ball = ball
+                    )
+
+                    MovementDirection.START -> moveBallToStart(
+                        ball = ball
+                    )
+
+                    MovementDirection.END -> moveBallToEnd(
+                        ball = ball
+                    )
                 }
             }
         }
@@ -181,128 +236,166 @@ class HomeViewModel : ViewModel() {
     private suspend fun moveBallToTop(
         ball: BallState
     ) {
-        val ballState = _ballState.value
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition,
-                yPosition = ballState.yPosition - movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition,
+                yPosition = ball.yPosition - movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.TOP
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToBottom() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToBottom(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition,
-                yPosition = ballState.yPosition + movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition,
+                yPosition = ball.yPosition + movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.BOTTOM
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToEnd() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToEnd(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition + movementSpeed,
-                yPosition = ballState.yPosition,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition + movementSteps,
+                yPosition = ball.yPosition,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.END
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToStart() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToStart(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition - movementSpeed,
-                yPosition = ballState.yPosition,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition - movementSteps,
+                yPosition = ball.yPosition,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.START
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToTopEnd() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToTopEnd(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition + movementSpeed,
-                yPosition = ballState.yPosition - movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition + movementSteps,
+                yPosition = ball.yPosition - movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.TOP_END
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToTopStart() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToTopStart(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition - movementSpeed,
-                yPosition = ballState.yPosition - movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition - movementSteps,
+                yPosition = ball.yPosition - movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.TOP_START
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToBottomEnd() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToBottomEnd(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition + movementSpeed,
-                yPosition = ballState.yPosition + movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition + movementSteps,
+                yPosition = ball.yPosition + movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.BOTTOM_END
             )
+
+            _ballState.value = ballList
         }
     }
 
-    private suspend fun moveBallToBottomStart() {
-        val ballState = _ballState.value
+    private suspend fun moveBallToBottomStart(
+        ball: BallState
+    ) {
+        val ballList = _ballState.value.toMutableList()
 
         withContext(
             context = Dispatchers.Main
         ) {
-            _ballState.value = BallState(
-                xPosition = ballState.xPosition - movementSpeed,
-                yPosition = ballState.yPosition + movementSpeed,
-                ballType = ballState.ballType,
+            ballList[ball.id] = BallState(
+                id = ball.id,
+                xPosition = ball.xPosition - movementSteps,
+                yPosition = ball.yPosition + movementSteps,
+                ballType = ball.ballType,
                 movementDirection = MovementDirection.BOTTOM_START
             )
+
+            _ballState.value = ballList
         }
     }
+    //endregion Private Methods
 
-    private fun getBalls(): List<BallState> {
-
-
+    //region Public Methods
+    fun createBalls() {
         val balls: MutableList<BallState> = mutableListOf()
 
         (0..4).forEach { i ->
@@ -343,6 +436,5 @@ class HomeViewModel : ViewModel() {
 
         _ballState.value = balls
     }
-
-    //endregion Private Methods
+    //endregion Public Methods
 }

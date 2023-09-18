@@ -3,6 +3,8 @@ package app.mat.rps.presentation.view
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,23 +24,11 @@ class HomeActivity : ComponentActivity() {
                 viewModelStoreOwner = this
             )
 
-            val context = LocalContext.current
-
-            context.resources.displayMetrics.apply {
-                HomeViewModel.setScreenMeasures(
-                    width = widthPixels,
-                    height = heightPixels,
-                    pixelDensity = density
-                )
-            }
 
             HomeScreen(
-                homeViewModel = homeViewModel,
-                modifier = Modifier
+                modifier = Modifier,
+                homeViewModel = homeViewModel
             )
-
-            homeViewModel.startBallMovement()
         }
     }
-
 }
