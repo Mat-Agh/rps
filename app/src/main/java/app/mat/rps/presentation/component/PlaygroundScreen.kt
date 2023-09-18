@@ -10,8 +10,7 @@ import androidx.compose.ui.unit.IntOffset
 @Composable
 fun PlaygroundScreen(
     modifier: Modifier,
-    xOffset: Int,
-    yOffset: Int,
+    intOffset: IntOffset,
     movingObject: @Composable () -> Unit
 ) {
     Box(
@@ -20,10 +19,7 @@ fun PlaygroundScreen(
         Box(
             modifier = modifier
                 .offset {
-                    IntOffset(
-                        xOffset,
-                        yOffset
-                    )
+                    intOffset
                 }
                 .align(
                     alignment = Alignment.CenterStart

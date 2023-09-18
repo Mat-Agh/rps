@@ -18,10 +18,20 @@ class HomeViewModel : ViewModel() {
         private var screenHeight: Int = 0
         private var screenDensity: Float = 1f
         private val ballSize: Int = (70 * screenDensity).toInt()
-        private val limitEnd = (ballSize * 2)
-        private val limitBottom = (ballSize * 2) + ((ballSize * 2) / 3)
+        private val endLimit = (ballSize * 2)
+        private val bottomLimit = (ballSize * 2) + ((ballSize * 2) / 3)
         private val movementSpeed: Int = (1 * screenDensity).toInt()
-        private const val MOVEMENT_DURATION: Long = 1
+        const val MOVEMENT_DURATION: Long = 1
+
+        fun setScreenMeasures(
+            width: Int,
+            height: Int,
+            pixelDensity: Float
+        ) {
+            screenWidth = width
+            screenHeight = height
+            screenDensity = pixelDensity
+        }
     }
     //endregion Companion object
 
@@ -44,6 +54,7 @@ class HomeViewModel : ViewModel() {
     }
 
     data class BallState(
+        val id: Int,
         val xPosition: Int,
         val yPosition: Int,
         val ballType: BallType,
@@ -52,17 +63,12 @@ class HomeViewModel : ViewModel() {
     //endregion Data Classes
 
     //region Variables
-    private val _ballState: MutableStateFlow<BallState> = MutableStateFlow(
-        BallState(
-            xPosition = 0,
-            yPosition = 100,
-            ballType = BallType.ROCK,
-            movementDirection = MovementDirection.entries.shuffled().last()
-        )
+    private val _ballState: MutableStateFlow<List<BallState>> = MutableStateFlow(
+        listOf()
     )
 
 
-    val ballState: StateFlow<BallState> = _ballState.asStateFlow()
+    val ballState: StateFlow<List<BallState>> = _ballState.asStateFlow()
 
     private var ballJob: Job? = Job()
     //endregion Variables
@@ -75,7 +81,9 @@ class HomeViewModel : ViewModel() {
             Dispatchers.IO
         ) {
             while (true) {
-                moveBall()
+                ballState.value.forEach { ballState ->
+                    moveBall(ballState)
+                }
                 delay(MOVEMENT_DURATION)
             }
         }
@@ -86,14 +94,16 @@ class HomeViewModel : ViewModel() {
         ballJob = null
     }
 
-    private suspend fun moveBall() {
-        val currentX = ballState.value.xPosition
-        val currentY = ballState.value.yPosition
-        val currentDirection = ballState.value.movementDirection
+    private suspend fun moveBall(
+        ball: BallState
+    ) {
+        val currentX = ball.xPosition
+        val currentY = ball.yPosition
+        val currentDirection = ball.movementDirection
         val isAtTopLimit = currentY <= 0
-        val isAtBottomLimit = currentY >= (screenHeight - limitBottom)
+        val isAtBottomLimit = currentY >= (screenHeight - bottomLimit)
         val isAtStartLimit = currentX <= 0
-        val isAtEndLimit = currentX >= (screenWidth - limitEnd)
+        val isAtEndLimit = currentX >= (screenWidth - endLimit)
 
 
         when {
@@ -168,7 +178,9 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private suspend fun moveBallToTop() {
+    private suspend fun moveBallToTop(
+        ball: BallState
+    ) {
         val ballState = _ballState.value
 
         withContext(
@@ -287,17 +299,50 @@ class HomeViewModel : ViewModel() {
             )
         }
     }
-    //endregion Private Methods
 
-    //region Public Methods
-    fun setScreenMeasures(
-        width: Int,
-        height: Int,
-        pixelDensity: Float
-    ) {
-        screenWidth = width
-        screenHeight = height
-        screenDensity = pixelDensity
+    private fun getBalls(): List<BallState> {
+
+
+        val balls: MutableList<BallState> = mutableListOf()
+
+        (0..4).forEach { i ->
+            balls.add(
+                BallState(
+                    id = i,
+                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
+                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
+                    ballType = BallType.ROCK,
+                    movementDirection = MovementDirection.TOP_END
+                )
+            )
+        }
+
+        (5..9).forEach { i ->
+            balls.add(
+                BallState(
+                    id = i,
+                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
+                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
+                    ballType = BallType.PAPER,
+                    movementDirection = MovementDirection.TOP_END
+                )
+            )
+        }
+
+        (10..14).forEach { i ->
+            balls.add(
+                BallState(
+                    id = i,
+                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
+                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
+                    ballType = BallType.SCISSOR,
+                    movementDirection = MovementDirection.TOP_END
+                )
+            )
+        }
+
+        _ballState.value = balls
     }
-    //endregion Public Methods
+
+    //endregion Private Methods
 }

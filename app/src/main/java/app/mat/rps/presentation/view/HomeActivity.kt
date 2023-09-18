@@ -25,7 +25,7 @@ class HomeActivity : ComponentActivity() {
             val context = LocalContext.current
 
             context.resources.displayMetrics.apply {
-                homeViewModel.setScreenMeasures(
+                HomeViewModel.setScreenMeasures(
                     width = widthPixels,
                     height = heightPixels,
                     pixelDensity = density
@@ -34,7 +34,7 @@ class HomeActivity : ComponentActivity() {
 
             HomeScreen(
                 homeViewModel = homeViewModel,
-                modifier = Modifier,
+                modifier = Modifier
             )
 
             homeViewModel.startBallMovement()
