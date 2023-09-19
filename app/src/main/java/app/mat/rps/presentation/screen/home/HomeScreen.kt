@@ -21,7 +21,7 @@ fun HomeScreen(
         )
     }
 
-    homeViewModel.createBalls()
+    homeViewModel.createBall()
 
     PlaygroundScreen(
         modifier = modifier

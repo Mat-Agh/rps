@@ -34,7 +34,7 @@ fun BallComponent(
                     color = when (ballType) {
                         BallType.ROCK -> Color.Black
                         BallType.PAPER -> Color.Blue
-                        BallType.SCISSOR -> Color.Red
+                        BallType.SCISSORS -> Color.Red
                     }
                 )
             }

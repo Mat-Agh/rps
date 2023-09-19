@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import app.mat.rps.presentation.state.enum.BallType
 import app.mat.rps.presentation.state.enum.MovementDirection
 import app.mat.rps.presentation.state.model.BallState
+import app.mat.rps.presentation.state.model.PlaygroundState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +23,7 @@ class HomeViewModel : ViewModel() {
         private val ballSize: Int = (50 * screenDensity).toInt()
         private val endLimit = (ballSize * 2)
         private val bottomLimit = (ballSize * 2) + ((ballSize * 2) / 3)
-        private val movementSteps: Int = (16 * screenDensity).toInt()
+        private val movementSteps: Int = (4 * screenDensity).toInt()
         const val MOVEMENT_DURATION: Long = 8
 
         fun setScreenMeasures(
@@ -39,48 +39,78 @@ class HomeViewModel : ViewModel() {
     //endregion Companion object
 
     //region Variables
-    private val _ballState: MutableStateFlow<List<BallState>> = MutableStateFlow(
-        listOf()
+    private val _playgroundState: MutableStateFlow<PlaygroundState> = MutableStateFlow(
+        createPlayGround()
     )
 
-
-    val ballState: StateFlow<List<BallState>> = _ballState.asStateFlow()
-
-    private var ballJob: Job? = Job()
+    val playgroundState: StateFlow<PlaygroundState> = _playgroundState.asStateFlow()
     //endregion Variables
 
     //region Private Methods
     fun startBallMovement() {
-        stopBallMovement()
-
-        ballJob = viewModelScope.launch(
+        viewModelScope.launch(
             Dispatchers.IO
         ) {
             while (true) {
-                ballState.value.forEach { ballState ->
-                    moveBall(ballState)
+                _playgroundState.value.apply {
+                    launch { moveBall(rockBall1State) }.start()
+
+                    launch { moveBall(rockBall2State) }.start()
+
+                    launch { moveBall(rockBall3State) }.start()
+
+                    launch { moveBall(rockBall4State) }.start()
+
+                    launch { moveBall(rockBall5State) }.start()
+
+                    launch { moveBall(paperBall1State) }.start()
+
+                    launch { moveBall(paperBall2State) }.start()
+
+                    launch { moveBall(paperBall3State) }.start()
+
+                    launch { moveBall(paperBall4State) }.start()
+
+                    launch { moveBall(paperBall5State) }.start()
+
+                    launch { moveBall(scissorsBall1State) }.start()
+
+                    launch { moveBall(scissorsBall2State) }.start()
+
+                    launch { moveBall(scissorsBall3State) }.start()
+
+                    launch { moveBall(scissorsBall4State) }.start()
+
+                    launch { moveBall(scissorsBall5State) }.start()
                 }
+
                 delay(MOVEMENT_DURATION)
             }
         }
     }
 
-    private fun stopBallMovement() {
-        ballJob?.cancel()
-        ballJob = null
-    }
-
     private suspend fun moveBall(
-        ball: BallState
+        ball: BallState?
     ) {
-        val currentX = ball.xPosition
-        val currentY = ball.yPosition
-        val currentDirection = ball.movementDirection
-        val isAtTopLimit = currentY <= 0
-        val isAtBottomLimit = currentY >= (screenHeight - bottomLimit)
-        val isAtStartLimit = currentX <= 0
-        val isAtEndLimit = currentX >= (screenWidth - endLimit)
+        ball ?: return
 
+        val currentDirection = ball.movementDirection
+        val isAtTopLimit = isAtTopLimit(
+            yPosition = ball.yPosition,
+            ballType = ball.type
+        )
+        val isAtBottomLimit = isAtBottomLimit(
+            yPosition = ball.yPosition,
+            ballType = ball.type
+        )
+        val isAtStartLimit = isAtStartLimit(
+            xPosition = ball.xPosition,
+            ballType = ball.type
+        )
+        val isAtEndLimit = isAtEndLimit(
+            xPosition = ball.xPosition,
+            ballType = ball.type
+        )
 
         when {
             isAtTopLimit && isAtStartLimit -> {
@@ -209,6 +239,175 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    private suspend fun isAtTopLimit(
+        yPosition: Int,
+        ballType: BallType
+    ): Boolean {
+        val balls = _ballState.value
+        var isAtTopLimit = false
+
+        if (yPosition <= 0) isAtTopLimit = true
+        else {
+            balls.forEach { otherBall ->
+                val topLimitStart = (otherBall.yPosition + ballSize) - (ballSize / 5)
+                val topLimitFinish = (otherBall.yPosition + ballSize) + (ballSize / 5)
+
+                if (yPosition in topLimitStart..topLimitFinish) {
+                    if (ballType == otherBall.type) {
+                        isAtTopLimit = true
+                    } else {
+                        judgeBall(
+                            currentBallId = id,
+                            currentBallType = ballType,
+                            checkBallId = otherBall.id,
+                            checkBallType = otherBall.type
+                        )
+                    }
+                }
+            }
+        }
+
+        return isAtTopLimit
+    }
+
+    private suspend fun isAtBottomLimit(
+        yPosition: Int,
+        ballType: BallType
+    ): Boolean {
+        val balls = _ballState.value
+        var isAtBottomLimit = false
+
+        if (yPosition >= (screenHeight - bottomLimit)) isAtBottomLimit = true
+        else {
+            balls.forEach { otherBall ->
+                val bottomLimitStart = otherBall.yPosition - (ballSize / 5)
+                val bottomLimitFinish = otherBall.yPosition + (ballSize / 5)
+
+                if (yPosition in bottomLimitStart..bottomLimitFinish) {
+                    if (ballType == otherBall.type) {
+                        isAtBottomLimit = true
+                    } else {
+                        judgeBall(
+                            currentBallId = id,
+                            currentBallType = ballType,
+                            checkBallId = otherBall.id,
+                            checkBallType = otherBall.type
+                        )
+                    }
+                }
+            }
+        }
+
+        return isAtBottomLimit
+    }
+
+    private suspend fun isAtStartLimit(
+        xPosition: Int,
+        ballType: BallType
+    ): Boolean {
+        val balls = _ballState.value
+        var isAtStartLimit = false
+
+        if (xPosition <= 0) isAtStartLimit = true
+        else {
+            balls.forEach { otherBall ->
+                val startLimitStart = (otherBall.xPosition + ballSize) - (ballSize / 5)
+                val startLimitFinish = (otherBall.xPosition + ballSize) + (ballSize / 5)
+
+                if (xPosition in startLimitStart..startLimitFinish) {
+                    if (ballType == otherBall.type) {
+                        isAtStartLimit = true
+                    } else {
+                        judgeBall(
+                            currentBallId = id,
+                            currentBallType = ballType,
+                            checkBallId = otherBall.id,
+                            checkBallType = otherBall.type
+                        )
+                    }
+                }
+            }
+        }
+
+        return isAtStartLimit
+    }
+
+    private suspend fun isAtEndLimit(
+        xPosition: Int,
+        ballType: BallType
+    ): Boolean {
+        val balls = _ballState.value
+        var isAtEndLimit = false
+
+        if (xPosition <= 0) isAtEndLimit = true
+        else {
+            balls.forEach { otherBall ->
+                val endLimitStart = otherBall.xPosition - (ballSize / 5)
+                val endLimitFinish = otherBall.xPosition + (ballSize / 5)
+
+                if (xPosition in endLimitStart..endLimitFinish) {
+                    if (ballType == otherBall.type) {
+                        isAtEndLimit = true
+                    } else {
+                        judgeBall(
+                            currentBallId = id,
+                            currentBallType = ballType,
+                            checkBallId = otherBall.id,
+                            checkBallType = otherBall.type
+                        )
+                    }
+                }
+            }
+        }
+
+        return isAtEndLimit
+    }
+
+    private suspend fun judgeBall(
+        currentBallId: Int,
+        currentBallType: BallType,
+        checkBallId: Int,
+        checkBallType: BallType
+    ) {
+        val isWinner = isWinner(
+            currentBallType = currentBallType,
+            checkBallType = checkBallType
+        )
+
+        removeFromList(if (isWinner) checkBallId else currentBallId)
+    }
+
+    private suspend fun isWinner(
+        currentBallType: BallType,
+        checkBallType: BallType
+    ): Boolean = when {
+        currentBallType == BallType.ROCK && checkBallType == BallType.PAPER -> false
+
+        currentBallType == BallType.ROCK && checkBallType == BallType.SCISSORS -> true
+
+        currentBallType == BallType.PAPER && checkBallType == BallType.ROCK -> true
+
+        currentBallType == BallType.PAPER && checkBallType == BallType.SCISSORS -> false
+
+        currentBallType == BallType.SCISSORS && checkBallType == BallType.PAPER -> true
+
+        currentBallType == BallType.SCISSORS && checkBallType == BallType.ROCK -> false
+
+        else -> false
+    }
+
+    private fun removeFromList(
+        id: Int
+    ) {
+        val balls = _ballState.value.toMutableList()
+
+        if (balls.isEmpty()) return
+
+        balls.remove(balls.find { it.id == id })
+
+        _ballState.value = balls
+    }
+
     private suspend fun moveBallToTop(
         ball: BallState
     ) {
@@ -217,11 +416,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition,
                 yPosition = ball.yPosition - movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.TOP
             )
 
@@ -237,11 +440,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition,
                 yPosition = ball.yPosition + movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.BOTTOM
             )
 
@@ -257,11 +464,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition + movementSteps,
                 yPosition = ball.yPosition,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.END
             )
 
@@ -277,11 +488,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition - movementSteps,
                 yPosition = ball.yPosition,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.START
             )
 
@@ -297,11 +512,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition + movementSteps,
                 yPosition = ball.yPosition - movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.TOP_END
             )
 
@@ -317,11 +536,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition - movementSteps,
                 yPosition = ball.yPosition - movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.TOP_START
             )
 
@@ -337,11 +560,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
                 id = ball.id,
                 xPosition = ball.xPosition + movementSteps,
                 yPosition = ball.yPosition + movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.BOTTOM_END
             )
 
@@ -357,11 +584,15 @@ class HomeViewModel : ViewModel() {
         withContext(
             context = Dispatchers.Main
         ) {
-            ballList[ball.id] = BallState(
-                id = ball.id,
+            val ballIndex = ballList.indexOf(ball)
+
+            if (ballIndex == -1) return@withContext
+
+            ballList[ballIndex] = BallState(
+                id = ballIndex,
                 xPosition = ball.xPosition - movementSteps,
                 yPosition = ball.yPosition + movementSteps,
-                ballType = ball.ballType,
+                type = ball.type,
                 movementDirection = MovementDirection.BOTTOM_START
             )
 
@@ -371,46 +602,63 @@ class HomeViewModel : ViewModel() {
     //endregion Private Methods
 
     //region Public Methods
-    fun createBalls() {
-        val balls: MutableList<BallState> = mutableListOf()
+    fun createPlayGround(): PlaygroundState = PlaygroundState(
+        rockBall1State = createBall(
+            ballType = BallType.ROCK
+        ),
+        rockBall2State = createBall(
+            ballType = BallType.ROCK
+        ),
+        rockBall3State = createBall(
+            ballType = BallType.ROCK
+        ),
+        rockBall4State = createBall(
+            ballType = BallType.ROCK
+        ),
+        rockBall5State = createBall(
+            ballType = BallType.ROCK
+        ),
+        paperBall1State = createBall(
+            ballType = BallType.ROCK
+        ),
+        paperBall2State = createBall(
+            ballType = BallType.ROCK
+        ),
+        paperBall3State = createBall(
+            ballType = BallType.ROCK
+        ),
+        paperBall4State = createBall(
+            ballType = BallType.ROCK
+        ),
+        paperBall5State = createBall(
+            ballType = BallType.ROCK
+        ),
+        scissorsBall1State = createBall(
+            ballType = BallType.ROCK
+        ),
+        scissorsBall2State = createBall(
+            ballType = BallType.ROCK
+        ),
+        scissorsBall3State = createBall(
+            ballType = BallType.ROCK
+        ),
+        scissorsBall4State = createBall(
+            ballType = BallType.ROCK
+        ),
+        scissorsBall5State = createBall(
+            ballType = BallType.ROCK
+        )
+    )
 
-        (0..4).forEach { i ->
-            balls.add(
-                BallState(
-                    id = i,
-                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
-                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
-                    ballType = BallType.ROCK,
-                    movementDirection = MovementDirection.TOP_END
-                )
-            )
-        }
-
-        (5..9).forEach { i ->
-            balls.add(
-                BallState(
-                    id = i,
-                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
-                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
-                    ballType = BallType.PAPER,
-                    movementDirection = MovementDirection.TOP_END
-                )
-            )
-        }
-
-        (10..14).forEach { i ->
-            balls.add(
-                BallState(
-                    id = i,
-                    xPosition = (ballSize..(screenWidth - endLimit)).random(),
-                    yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
-                    ballType = BallType.SCISSOR,
-                    movementDirection = MovementDirection.TOP_END
-                )
-            )
-        }
-
-        _ballState.value = balls
+    fun createBall(
+        ballType: BallType
+    ): BallState {
+        BallState(
+            xPosition = (ballSize..(screenWidth - endLimit)).random(),
+            yPosition = (ballSize..(screenHeight - bottomLimit)).random(),
+            type = ballType,
+            movementDirection = MovementDirection.TOP_END
+        )
     }
     //endregion Public Methods
 }
