@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import app.mat.rps.presentation.screen.home.HomeViewModel
+import app.mat.rps.presentation.state.enum.BallType
 
 @Composable
 fun BallComponent(
     modifier: Modifier,
-    ballType: HomeViewModel.BallType,
+    ballType: BallType,
     intOffset: State<IntOffset>
 ) {
     Box(
@@ -32,9 +32,9 @@ fun BallComponent(
             onDraw = {
                 drawCircle(
                     color = when (ballType) {
-                        HomeViewModel.BallType.ROCK -> Color.Black
-                        HomeViewModel.BallType.PAPER -> Color.Blue
-                        HomeViewModel.BallType.SCISSOR -> Color.Red
+                        BallType.ROCK -> Color.Black
+                        BallType.PAPER -> Color.Blue
+                        BallType.SCISSOR -> Color.Red
                     }
                 )
             }

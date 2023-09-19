@@ -2,6 +2,9 @@ package app.mat.rps.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.mat.rps.presentation.state.enum.BallType
+import app.mat.rps.presentation.state.enum.MovementDirection
+import app.mat.rps.presentation.state.model.BallState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -20,8 +23,8 @@ class HomeViewModel : ViewModel() {
         private val ballSize: Int = (50 * screenDensity).toInt()
         private val endLimit = (ballSize * 2)
         private val bottomLimit = (ballSize * 2) + ((ballSize * 2) / 3)
-        private val movementSteps: Int = (2 * screenDensity).toInt()
-        const val MOVEMENT_DURATION: Long = 1
+        private val movementSteps: Int = (16 * screenDensity).toInt()
+        const val MOVEMENT_DURATION: Long = 8
 
         fun setScreenMeasures(
             width: Int,
@@ -34,33 +37,6 @@ class HomeViewModel : ViewModel() {
         }
     }
     //endregion Companion object
-
-    //region Data Classes
-    enum class BallType {
-        ROCK,
-        PAPER,
-        SCISSOR
-    }
-
-    enum class MovementDirection {
-        TOP_START,
-        BOTTOM_START,
-        TOP_END,
-        BOTTOM_END,
-        TOP,
-        BOTTOM,
-        START,
-        END
-    }
-
-    data class BallState(
-        val id: Int,
-        val xPosition: Int,
-        val yPosition: Int,
-        val ballType: BallType,
-        val movementDirection: MovementDirection
-    )
-    //endregion Data Classes
 
     //region Variables
     private val _ballState: MutableStateFlow<List<BallState>> = MutableStateFlow(
