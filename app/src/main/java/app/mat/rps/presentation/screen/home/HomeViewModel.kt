@@ -151,130 +151,140 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(
             Dispatchers.IO
         ) {
-            while (true) {
-                val rock1State = _rock1State.value
+            async {
+                handleBallMovement()
+            }.start()
 
-                if (rock1State.id != 0) {
-                    initiateBallMovement(
-                        ballState = rock1State
-                    )
-                }
-
-                val rock2State = _rock2State.value
-
-                if (rock2State.id != 0) {
-                    initiateBallMovement(
-                        ballState = rock2State
-                    )
-                }
-
-                val rock3State = _rock3State.value
-
-                if (rock3State.id != 0) {
-                    initiateBallMovement(
-                        ballState = rock3State
-                    )
-                }
-
-                val rock4State = _rock4State.value
-
-                if (rock4State.id != 0) {
-                    initiateBallMovement(
-                        ballState = rock4State
-                    )
-                }
-
-                val rock5State = _rock5State.value
-
-                if (rock5State.id != 0) {
-                    initiateBallMovement(
-                        ballState = rock5State
-                    )
-                }
-
-                val paper1State = _paper1State.value
-
-                if (paper1State.id != 0) {
-                    initiateBallMovement(
-                        ballState = paper1State
-                    )
-                }
-
-                val paper2State = _paper2State.value
-
-                if (paper2State.id != 0) {
-                    initiateBallMovement(
-                        ballState = paper2State
-                    )
-                }
-
-                val paper3State = _paper3State.value
-
-                if (paper3State.id != 0) {
-                    initiateBallMovement(
-                        ballState = paper3State
-                    )
-                }
-
-                val paper4State = _paper4State.value
-
-                if (paper4State.id != 0) {
-                    initiateBallMovement(
-                        ballState = paper4State
-                    )
-                }
-
-                val paper5State = _paper5State.value
-
-                if (paper5State.id != 0) {
-                    initiateBallMovement(
-                        ballState = paper5State
-                    )
-                }
-
-                val scissors1State = _scissors1State.value
-
-                if (paper1State.id != 0) {
-                    initiateBallMovement(
-                        ballState = scissors1State
-                    )
-                }
-
-                val scissors2State = _scissors2State.value
-
-                if (scissors2State.id != 0) {
-                    initiateBallMovement(
-                        ballState = scissors2State
-                    )
-                }
-
-                val scissors3State = _scissors3State.value
-
-                if (scissors3State.id != 0) {
-                    initiateBallMovement(
-                        ballState = scissors3State
-                    )
-                }
-
-                val scissors4State = _scissors4State.value
-
-                if (scissors4State.id != 0) {
-                    initiateBallMovement(
-                        ballState = scissors4State
-                    )
-                }
-
-                val scissors5State = _scissors5State.value
-
-                if (scissors5State.id != 0) {
-                    initiateBallMovement(
-                        ballState = scissors5State
-                    )
-                }
-
-                delay(MOVEMENT_DURATION)
-            }
+//            async {
+//                handleBallContact()
+//            }.start()
         }.start()
+    }
+
+    private suspend fun handleBallMovement() {
+        while (true) {
+            val rock1State = _rock1State.value
+
+            if (rock1State.id != 0) {
+                initiateBallMovement(
+                    ballState = rock1State
+                )
+            }
+
+            val rock2State = _rock2State.value
+
+            if (rock2State.id != 0) {
+                initiateBallMovement(
+                    ballState = rock2State
+                )
+            }
+
+            val rock3State = _rock3State.value
+
+            if (rock3State.id != 0) {
+                initiateBallMovement(
+                    ballState = rock3State
+                )
+            }
+
+            val rock4State = _rock4State.value
+
+            if (rock4State.id != 0) {
+                initiateBallMovement(
+                    ballState = rock4State
+                )
+            }
+
+            val rock5State = _rock5State.value
+
+            if (rock5State.id != 0) {
+                initiateBallMovement(
+                    ballState = rock5State
+                )
+            }
+
+            val paper1State = _paper1State.value
+
+            if (paper1State.id != 0) {
+                initiateBallMovement(
+                    ballState = paper1State
+                )
+            }
+
+            val paper2State = _paper2State.value
+
+            if (paper2State.id != 0) {
+                initiateBallMovement(
+                    ballState = paper2State
+                )
+            }
+
+            val paper3State = _paper3State.value
+
+            if (paper3State.id != 0) {
+                initiateBallMovement(
+                    ballState = paper3State
+                )
+            }
+
+            val paper4State = _paper4State.value
+
+            if (paper4State.id != 0) {
+                initiateBallMovement(
+                    ballState = paper4State
+                )
+            }
+
+            val paper5State = _paper5State.value
+
+            if (paper5State.id != 0) {
+                initiateBallMovement(
+                    ballState = paper5State
+                )
+            }
+
+            val scissors1State = _scissors1State.value
+
+            if (paper1State.id != 0) {
+                initiateBallMovement(
+                    ballState = scissors1State
+                )
+            }
+
+            val scissors2State = _scissors2State.value
+
+            if (scissors2State.id != 0) {
+                initiateBallMovement(
+                    ballState = scissors2State
+                )
+            }
+
+            val scissors3State = _scissors3State.value
+
+            if (scissors3State.id != 0) {
+                initiateBallMovement(
+                    ballState = scissors3State
+                )
+            }
+
+            val scissors4State = _scissors4State.value
+
+            if (scissors4State.id != 0) {
+                initiateBallMovement(
+                    ballState = scissors4State
+                )
+            }
+
+            val scissors5State = _scissors5State.value
+
+            if (scissors5State.id != 0) {
+                initiateBallMovement(
+                    ballState = scissors5State
+                )
+            }
+
+            delay(MOVEMENT_DURATION)
+        }
     }
 
     private suspend fun initiateBallMovement(
@@ -284,23 +294,11 @@ class HomeViewModel : ViewModel() {
             viewModelScope.async(
                 context = Dispatchers.IO
             ) {
-                moveBall(
-                    ballState
+                calculateBallMovement(
+                    ballState = ballState
                 )
             }.start()
         }
-    }
-
-    private suspend fun moveBall(
-        ballState: BallState
-    ) {
-        calculateBallMovement(
-            ballState = ballState
-        )
-
-        checkBallContact(
-            ballState = ballState
-        )
     }
 
     private suspend fun calculateBallMovement(
@@ -376,7 +374,6 @@ class HomeViewModel : ViewModel() {
                     )
                 }
             }
-
 
             MovementLimitation.START_TOP -> {
                 when (currentDirection) {
@@ -480,7 +477,46 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun checkBallContact(
+
+    private fun getOppositeDirection(
+        movementDirection: MovementDirection
+    ): MovementDirection = when (movementDirection) {
+        MovementDirection.TOP_START -> MovementDirection.BOTTOM_END
+        MovementDirection.BOTTOM_START -> MovementDirection.TOP_END
+        MovementDirection.TOP_END -> MovementDirection.BOTTOM_START
+        MovementDirection.BOTTOM_END -> MovementDirection.TOP_START
+        MovementDirection.TOP -> MovementDirection.BOTTOM
+        MovementDirection.BOTTOM -> MovementDirection.TOP
+        MovementDirection.START -> MovementDirection.END
+        MovementDirection.END -> MovementDirection.START
+    }
+
+    private fun getMovementLimitations(
+        ballState: BallState
+    ): MovementLimitation {
+        val movementLimitation: MovementLimitation
+
+        val isTopLimited = ballState.yPosition < 0
+        val isBottomLimited = ballState.yPosition > (screenHeight - (ballSize * 3))
+        val isStartLimited = ballState.xPosition < 0
+        val isEndLimited = ballState.xPosition > (screenWidth - (ballSize * 2.2))
+
+        movementLimitation = when {
+            isStartLimited && isTopLimited -> MovementLimitation.START_TOP
+            isTopLimited && isEndLimited -> MovementLimitation.TOP_END
+            isEndLimited && isBottomLimited -> MovementLimitation.END_BOTTOM
+            isBottomLimited && isStartLimited -> MovementLimitation.BOTTOM_START
+            isTopLimited -> MovementLimitation.TOP
+            isBottomLimited -> MovementLimitation.BOTTOM
+            isStartLimited -> MovementLimitation.START
+            isEndLimited -> MovementLimitation.END
+            else -> MovementLimitation.NONE
+        }
+
+        return movementLimitation
+    }
+
+    private fun handleBallContact(
         ballState: BallState
     ) {
         val rock1State = _rock1State.value
@@ -688,44 +724,6 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun getOppositeDirection(
-        movementDirection: MovementDirection
-    ): MovementDirection = when (movementDirection) {
-        MovementDirection.TOP_START -> MovementDirection.BOTTOM_END
-        MovementDirection.BOTTOM_START -> MovementDirection.TOP_END
-        MovementDirection.TOP_END -> MovementDirection.BOTTOM_START
-        MovementDirection.BOTTOM_END -> MovementDirection.TOP_START
-        MovementDirection.TOP -> MovementDirection.BOTTOM
-        MovementDirection.BOTTOM -> MovementDirection.TOP
-        MovementDirection.START -> MovementDirection.END
-        MovementDirection.END -> MovementDirection.START
-    }
-
-    private fun getMovementLimitations(
-        ballState: BallState
-    ): MovementLimitation {
-        val movementLimitation: MovementLimitation
-
-        val isTopLimited = ballState.yPosition < 0
-        val isBottomLimited = (ballState.yPosition + ballSize) > screenHeight
-        val isStartLimited = ballState.xPosition < 0
-        val isEndLimited = (ballState.yPosition + ballSize) > screenHeight
-
-        movementLimitation = when {
-            isStartLimited && isTopLimited -> MovementLimitation.START_TOP
-            isTopLimited && isEndLimited -> MovementLimitation.TOP_END
-            isEndLimited && isBottomLimited -> MovementLimitation.END_BOTTOM
-            isBottomLimited && isStartLimited -> MovementLimitation.BOTTOM_START
-            isTopLimited -> MovementLimitation.TOP
-            isBottomLimited -> MovementLimitation.BOTTOM
-            isStartLimited -> MovementLimitation.START
-            isEndLimited -> MovementLimitation.END
-            else -> MovementLimitation.NONE
-        }
-
-        return movementLimitation
-    }
-
     private fun calculateDistanceBetween(
         currentBallState: BallState,
         checkBallState: BallState
@@ -756,73 +754,6 @@ class HomeViewModel : ViewModel() {
         currentBallType == BallType.SCISSORS && checkBallType == BallType.ROCK -> false
 
         else -> false
-    }
-
-    private fun updateBallState(
-        ballId: Int,
-        ballState: BallState?
-    ) = when (ballId) {
-        1 -> _rock1State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.ROCK
-        )
-
-        2 -> _rock2State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.ROCK
-        )
-
-        3 -> _rock3State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.ROCK
-        )
-
-        4 -> _rock4State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.ROCK
-        )
-
-        5 -> _rock5State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.ROCK
-        )
-
-        6 -> _paper1State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.PAPER
-        )
-
-        7 -> _paper2State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.PAPER
-        )
-
-        8 -> _paper3State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.PAPER
-        )
-
-        9 -> _paper4State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.PAPER
-        )
-
-        10 -> _paper5State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.PAPER
-        )
-
-        11 -> _scissors1State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.SCISSORS
-        )
-
-        12 -> _scissors2State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.SCISSORS
-        )
-
-        13 -> _scissors3State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.SCISSORS
-        )
-
-        14 -> _scissors4State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.SCISSORS
-        )
-
-        15 -> _scissors5State.value = ballState ?: getDefaultBallState(
-            ballType = BallType.SCISSORS
-        )
-
-        else -> {}
     }
 
     private suspend fun moveBallToTop(
@@ -961,7 +892,7 @@ class HomeViewModel : ViewModel() {
         )
     }
 
-    private fun createBall(
+    private fun createBallState(
         id: Int,
         ballType: BallType
     ): BallState = BallState(
@@ -981,81 +912,148 @@ class HomeViewModel : ViewModel() {
         type = ballType,
         movementDirection = MovementDirection.BOTTOM
     )
+
+    private fun updateBallState(
+        ballId: Int,
+        ballState: BallState?
+    ) = when (ballId) {
+        1 -> _rock1State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.ROCK
+        )
+
+        2 -> _rock2State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.ROCK
+        )
+
+        3 -> _rock3State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.ROCK
+        )
+
+        4 -> _rock4State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.ROCK
+        )
+
+        5 -> _rock5State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.ROCK
+        )
+
+        6 -> _paper1State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.PAPER
+        )
+
+        7 -> _paper2State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.PAPER
+        )
+
+        8 -> _paper3State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.PAPER
+        )
+
+        9 -> _paper4State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.PAPER
+        )
+
+        10 -> _paper5State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.PAPER
+        )
+
+        11 -> _scissors1State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.SCISSORS
+        )
+
+        12 -> _scissors2State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.SCISSORS
+        )
+
+        13 -> _scissors3State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.SCISSORS
+        )
+
+        14 -> _scissors4State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.SCISSORS
+        )
+
+        15 -> _scissors5State.value = ballState ?: getDefaultBallState(
+            ballType = BallType.SCISSORS
+        )
+
+        else -> {}
+    }
     //endregion Private Methods
 
     //region Public Methods
     fun createPlayGround() {
-        _rock1State.value = createBall(
+        _rock1State.value = createBallState(
             id = 1,
             ballType = BallType.ROCK
         )
 
-        _rock2State.value = createBall(
+        _rock2State.value = createBallState(
             id = 2,
             ballType = BallType.ROCK
         )
 
-        _rock3State.value = createBall(
+        _rock3State.value = createBallState(
             id = 3,
             ballType = BallType.ROCK
         )
 
-        _rock4State.value = createBall(
+        _rock4State.value = createBallState(
             id = 4,
             ballType = BallType.ROCK
         )
 
-        _rock5State.value = createBall(
+        _rock5State.value = createBallState(
             id = 5,
             ballType = BallType.ROCK
         )
 
-        _paper1State.value = createBall(
+        _paper1State.value = createBallState(
             id = 6,
             ballType = BallType.PAPER
         )
 
-        _paper2State.value = createBall(
+        _paper2State.value = createBallState(
             id = 7,
             ballType = BallType.PAPER
         )
 
-        _paper3State.value = createBall(
+        _paper3State.value = createBallState(
             id = 8,
             ballType = BallType.PAPER
         )
 
-        _paper4State.value = createBall(
+        _paper4State.value = createBallState(
             id = 9,
             ballType = BallType.PAPER
         )
 
-        _paper5State.value = createBall(
+        _paper5State.value = createBallState(
             id = 10,
             ballType = BallType.PAPER
         )
 
-        _scissors1State.value = createBall(
+        _scissors1State.value = createBallState(
             id = 11,
             ballType = BallType.SCISSORS
         )
 
-        _scissors2State.value = createBall(
+        _scissors2State.value = createBallState(
             id = 12,
             ballType = BallType.SCISSORS
         )
 
-        _scissors3State.value = createBall(
+        _scissors3State.value = createBallState(
             id = 13,
             ballType = BallType.SCISSORS
         )
 
-        _scissors4State.value = createBall(
+        _scissors4State.value = createBallState(
             id = 14,
             ballType = BallType.SCISSORS
         )
 
-        _scissors5State.value = createBall(
+        _scissors5State.value = createBallState(
             id = 15,
             ballType = BallType.SCISSORS
         )
