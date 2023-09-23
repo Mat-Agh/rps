@@ -575,7 +575,7 @@ class HomeViewModel : ViewModel() {
 
         val scissors1State = _scissors1State.value
 
-        if (paper1State.id != 0) {
+        if (scissors1State.id != 0) {
             initiateCalculateBallContact(
                 currentBallState = ballState,
                 checkBallState = paper1State
