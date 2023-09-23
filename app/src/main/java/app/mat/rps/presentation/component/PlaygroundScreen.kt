@@ -14,27 +14,54 @@ import androidx.compose.ui.unit.IntOffset
 import app.mat.rps.presentation.screen.home.HomeViewModel
 
 @Composable
+
 fun PlaygroundScreen(
     modifier: Modifier,
     homeViewModel: HomeViewModel
 ) {
-    val rockBall1State by homeViewModel.rockBall1State!!.collectAsState()
+    val rock1State by homeViewModel.rock1State.collectAsState()
+
+    val rock2State by homeViewModel.rock2State.collectAsState()
+
+    val rock3State by homeViewModel.rock3State.collectAsState()
+
+    val rock4State by homeViewModel.rock4State.collectAsState()
+
+    val rock5State by homeViewModel.rock5State.collectAsState()
+
+    val paper1State by homeViewModel.paper1State.collectAsState()
+
+    val paper2State by homeViewModel.paper2State.collectAsState()
+
+    val paper3State by homeViewModel.paper3State.collectAsState()
+
+    val paper4State by homeViewModel.paper4State.collectAsState()
+
+    val paper5State by homeViewModel.paper5State.collectAsState()
+
+    val scissors1State by homeViewModel.scissors1State.collectAsState()
+
+    val scissors2State by homeViewModel.scissors2State.collectAsState()
+
+    val scissors3State by homeViewModel.scissors3State.collectAsState()
+
+    val scissors4State by homeViewModel.scissors4State.collectAsState()
+
+    val scissors5State by homeViewModel.scissors5State.collectAsState()
 
     Box(
-        modifier = modifier
-            .background(
-                color = Color.Cyan
-            )
+        modifier = modifier.background(
+            color = Color.Cyan
+        )
     ) {
-
-        if (ballState.isNotEmpty()) {
+        if (rock1State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[0].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = rock1State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[0].xPosition,
-                        y = ballState[0].yPosition
+                        x = rock1State.xPosition,
+                        y = rock1State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -44,14 +71,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (1 < ballState.size) {
+        if (rock2State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[1].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = rock2State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[1].xPosition,
-                        y = ballState[1].yPosition
+                        x = rock2State.xPosition,
+                        y = rock2State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -61,14 +88,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (2 < ballState.size) {
+        if (rock3State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[2].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = rock3State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[2].xPosition,
-                        y = ballState[2].yPosition
+                        x = rock3State.xPosition,
+                        y = rock3State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -78,14 +105,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (3 < ballState.size) {
+        if (rock4State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[3].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = rock4State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[3].xPosition,
-                        y = ballState[3].yPosition
+                        x = rock4State.xPosition,
+                        y = rock4State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -95,14 +122,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (4 < ballState.size) {
+        if (rock5State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[4].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = rock5State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[4].xPosition,
-                        y = ballState[4].yPosition
+                        x = rock5State.xPosition,
+                        y = rock5State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -112,14 +139,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (5 < ballState.size) {
+        if (paper1State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[5].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = paper1State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[5].xPosition,
-                        y = ballState[5].yPosition
+                        x = paper1State.xPosition,
+                        y = paper1State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -129,14 +156,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (6 < ballState.size) {
+        if (paper2State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[6].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = paper2State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[6].xPosition,
-                        y = ballState[6].yPosition
+                        x = paper2State.xPosition,
+                        y = paper2State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -146,14 +173,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (7 < ballState.size) {
+        if (paper3State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[7].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = paper3State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[7].xPosition,
-                        y = ballState[7].yPosition
+                        x = paper3State.xPosition,
+                        y = paper3State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -163,14 +190,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (8 < ballState.size) {
+        if (paper4State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[8].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = paper4State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[8].xPosition,
-                        y = ballState[8].yPosition
+                        x = paper4State.xPosition,
+                        y = paper4State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -180,14 +207,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (9 < ballState.size) {
+        if (paper5State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[9].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = paper5State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[9].xPosition,
-                        y = ballState[9].yPosition
+                        x = paper5State.xPosition,
+                        y = paper5State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -197,14 +224,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (10 < ballState.size) {
+        if (scissors1State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[10].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = scissors1State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[10].xPosition,
-                        y = ballState[10].yPosition
+                        x = scissors1State.xPosition,
+                        y = scissors1State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -214,14 +241,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (11 < ballState.size) {
+        if (scissors2State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[11].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = scissors2State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[11].xPosition,
-                        y = ballState[11].yPosition
+                        x = scissors2State.xPosition,
+                        y = scissors2State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -231,14 +258,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (12 < ballState.size) {
+        if (scissors3State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[12].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = scissors3State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[12].xPosition,
-                        y = ballState[12].yPosition
+                        x = scissors3State.xPosition,
+                        y = scissors3State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -248,14 +275,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (13 < ballState.size) {
+        if (scissors4State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[13].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = scissors4State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[13].xPosition,
-                        y = ballState[13].yPosition
+                        x = scissors4State.xPosition,
+                        y = scissors4State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
@@ -265,14 +292,14 @@ fun PlaygroundScreen(
             )
         }
 
-        if (14 < ballState.size) {
+        if (scissors5State.id != 0) {
             BallComponent(
                 modifier = modifier,
-                ballType = ballState[14].type,
-                intOffset = animateIntOffsetAsState(
+                ballType = scissors5State.type,
+                intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
-                        x = ballState[14].xPosition,
-                        y = ballState[14].yPosition
+                        x = scissors5State.xPosition,
+                        y = scissors5State.yPosition
                     ),
                     animationSpec = tween(
                         durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),

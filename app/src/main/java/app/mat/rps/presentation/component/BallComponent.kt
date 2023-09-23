@@ -10,18 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import app.mat.rps.presentation.state.enum.BallType
+import app.mat.rps.presentation.state.type.BallType
 
 @Composable
 fun BallComponent(
     modifier: Modifier,
     ballType: BallType,
-    intOffset: State<IntOffset>
+    intOffsetState: State<IntOffset>
 ) {
     Box(
         modifier = modifier
             .offset {
-                intOffset.value
+                intOffsetState.value
             }
     ) {
         Canvas(

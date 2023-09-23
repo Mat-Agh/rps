@@ -1,4 +1,4 @@
-package app.mat.rps.presentation.state.enum
+package app.mat.rps.presentation.state.type
 
 enum class MovementDirection {
     TOP_START,
