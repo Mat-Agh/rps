@@ -4,17 +4,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import app.mat.rps.presentation.component.PlaygroundScreen
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel,
-    modifier: Modifier
+    modifier: Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
     context.resources.displayMetrics.apply {
-        HomeViewModel.setScreenMeasures(
+        homeViewModel.setScreenMeasures(
             width = widthPixels,
             height = heightPixels,
             pixelDensity = density
@@ -27,8 +28,7 @@ fun HomeScreen(
         modifier = modifier
             .fillMaxSize(
                 fraction = 1f
-            ),
-        homeViewModel = homeViewModel
+            )
     )
 
     homeViewModel.start()

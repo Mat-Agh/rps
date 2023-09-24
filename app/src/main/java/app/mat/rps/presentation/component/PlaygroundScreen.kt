@@ -1,6 +1,7 @@
 package app.mat.rps.presentation.component
 
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -11,13 +12,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
+import androidx.hilt.navigation.compose.hiltViewModel
 import app.mat.rps.presentation.screen.home.HomeViewModel
 
 @Composable
 
 fun PlaygroundScreen(
     modifier: Modifier,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val rock1State by homeViewModel.rock1State.collectAsState()
 
@@ -49,6 +51,8 @@ fun PlaygroundScreen(
 
     val scissors5State by homeViewModel.scissors5State.collectAsState()
 
+    val engine = homeViewModel.getEngine()
+
     Box(
         modifier = modifier.background(
             color = Color.Cyan
@@ -57,6 +61,13 @@ fun PlaygroundScreen(
         if (rock1State.id != 0) {
             BallComponent(
                 modifier = modifier,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 ballType = rock1State.type,
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
@@ -64,7 +75,7 @@ fun PlaygroundScreen(
                         y = rock1State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -75,13 +86,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = rock2State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = rock2State.xPosition,
                         y = rock2State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -92,13 +110,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = rock3State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = rock3State.xPosition,
                         y = rock3State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -109,13 +134,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = rock4State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = rock4State.xPosition,
                         y = rock4State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -126,13 +158,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = rock5State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = rock5State.xPosition,
                         y = rock5State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -143,13 +182,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = paper1State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = paper1State.xPosition,
                         y = paper1State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -160,13 +206,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = paper2State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = paper2State.xPosition,
                         y = paper2State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -177,13 +230,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = paper3State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = paper3State.xPosition,
                         y = paper3State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -194,13 +254,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = paper4State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = paper4State.xPosition,
                         y = paper4State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -211,13 +278,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = paper5State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = paper5State.xPosition,
                         y = paper5State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -228,13 +302,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = scissors1State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = scissors1State.xPosition,
                         y = scissors1State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -245,13 +326,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = scissors2State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = scissors2State.xPosition,
                         y = scissors2State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -262,13 +350,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = scissors3State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = scissors3State.xPosition,
                         y = scissors3State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -279,13 +374,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = scissors4State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = scissors4State.xPosition,
                         y = scissors4State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )
@@ -296,13 +398,20 @@ fun PlaygroundScreen(
             BallComponent(
                 modifier = modifier,
                 ballType = scissors5State.type,
+                ballSize = animateIntAsState(
+                    targetValue = engine.getBallSize(),
+                    animationSpec = tween(
+                        durationMillis = engine.getMovementDuration().toInt(),
+                        easing = LinearEasing
+                    ), label = ""
+                ),
                 intOffsetState = animateIntOffsetAsState(
                     targetValue = IntOffset(
                         x = scissors5State.xPosition,
                         y = scissors5State.yPosition
                     ),
                     animationSpec = tween(
-                        durationMillis = HomeViewModel.MOVEMENT_DURATION.toInt(),
+                        durationMillis = engine.getMovementDuration().toInt(),
                         easing = LinearEasing
                     ), label = ""
                 )

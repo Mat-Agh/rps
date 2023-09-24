@@ -15,6 +15,7 @@ import app.mat.rps.presentation.state.type.BallType
 @Composable
 fun BallComponent(
     modifier: Modifier,
+    ballSize: State<Int>,
     ballType: BallType,
     intOffsetState: State<IntOffset>
 ) {
@@ -27,7 +28,7 @@ fun BallComponent(
         Canvas(
             modifier = Modifier
                 .size(
-                    50.dp
+                    ballSize.value.dp
                 ),
             onDraw = {
                 drawCircle(
