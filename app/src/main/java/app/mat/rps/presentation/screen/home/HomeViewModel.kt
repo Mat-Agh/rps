@@ -22,12 +22,6 @@ class HomeViewModel @Inject constructor(
     private val engine: Engine,
     private val controller: Controller
 ) : ViewModel(), MovementHandler {
-    //region Companion Object
-    companion object {
-        const val MOVEMENT_DURATION = 8
-    }
-    //endregion
-
     //region Variables
     private val _rock1State: MutableStateFlow<BallState> = MutableStateFlow(
         engine.getDefaultBallState(
