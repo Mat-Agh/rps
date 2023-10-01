@@ -35,11 +35,11 @@ class EngineImpl @Inject constructor() : Engine {
 
     private var ballEncounterRadius: Int = ballSize * 2
 
-    private var movementDuration: Long = 4
+    private var movementDuration: Long = 16
 
     private var encounterCheckDuration: Long = movementDuration * (ballSize / 10)
 
-    private var movementSteps: Int = (1 * screenDensity).toInt()
+    private var movementSteps: Int = (4 * screenDensity).toInt()
     //endregion Variables
 
     //region Override Methods
